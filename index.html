@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🌄_pin</title>
-    <meta name="description" content="v0.1.0">
+    <meta name="description" content="v0.1.1">
     <meta name="author" content="stagfoo">
   </head>
   <body>
@@ -115,6 +115,9 @@
         background-color: transparent;
         border: 0
       }
+      .delete * {
+        pointer-events: none;
+      }
     </style>
     <script>
       const board = document.getElementById('board');
@@ -140,18 +143,20 @@
       function addImage() {
         const board = document.getElementById('board');
         const imgSrc = prompt("paste image url");
-        toDataURLxhr(imgSrc, function (dataUrl) {
-          const newPin = document.createElement('div');
-          newPin.classList = "pin"
-          newPin.innerHTML = `
-          <button class="delete" onclick="deletePin(event)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-          <img src="${dataUrl}" />
-          `;
-          board.prepend(newPin)
-        });
+        if(imgSrc !== null){
+          toDataURLxhr(imgSrc, function (dataUrl) {
+            const newPin = document.createElement('div');
+            newPin.classList = "pin"
+            newPin.innerHTML = `
+            <button class="delete" onclick="deletePin(event)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+            <img src="${dataUrl}" />
+            `;
+            board.prepend(newPin)
+          });
+        }
       }
       function deletePin(e){
-        event.target.parentElement.parentElement.remove()
+        event.target.parentElement.remove()
       }
       function toDataURLxhr(url, callback) {
         var xhr = new XMLHttpRequest();
