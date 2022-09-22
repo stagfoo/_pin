@@ -18,8 +18,9 @@ currently you need to disable CORS locally, here are some easy extension
 - the whole image is stored in the html
 
 # How do I use it?
+- open the index.html in your browser
 - copy a url of an image and paste it into the prompt
-- save the html file with ctrl + s
+- save the html file with ctrl + s ~ (eg: board-cool-stuff.html)
 - all the code to expand the board is stored in the html so open it again with a CORS disabled browser and continue editing.
 
 # Can I update an old board to a new version?
