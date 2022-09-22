@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🌄_pin</title>
-    <meta name="description" content="v0.1.1">
+    <meta name="description" content="v0.1.2">
     <meta name="author" content="stagfoo">
   </head>
   <body>
@@ -21,7 +21,7 @@
       <input id="addTitle"  placeholder="board file name" onkeyup="nameOfBoard(event)" />
       <button id="addImage" onclick="addImage()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
     </div>
-    <div id="board">
+    <div id="board" class="">
     </div>
     <!------------------------ SYSTEM ------------------------------------>
     <style>
@@ -43,8 +43,8 @@
       }
       .delete {
         position: absolute;
-        top:-10px;
-        right: -10px;
+        top:-14px;
+        right: -14px;
         width: 40px;
         height: 40px;
         transform: rotate(45deg);
@@ -93,13 +93,15 @@
           box-sizing: border-box;
         }
       }
+      .hide-delete .delete{
+        display:none;
+      }
 
       .pin { /* Masonry bricks or child elements */
         display: inline-block;
         position: relative;
         margin: 0 0 1em;
         width: 100%;
-        overflow: hidden;
       }
       img {
         border-radius: 4px;
@@ -130,11 +132,13 @@
         addImageButton.classList = ""
         showUIButton.classList = ""
         hideUIButton.classList = "hide"
+        board.classList = ""
       }
       function showUI(){
         addTitle.disabled = true
         addImageButton.classList = "hide"
         showUIButton.classList = "hide"
+        board.classList = "hide-delete"
         hideUIButton.classList = ""
       }
       function nameOfBoard(e) {
