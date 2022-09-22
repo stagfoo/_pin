@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌄_pin</title>
+    <meta name="description" content="v0.1.0">
+    <meta name="author" content="stagfoo">
+  </head>
+  <body>
+    <div id="ui">
+      <div id="toggle">
+        <button id="hideUI"  class="hide" onclick="hideUI()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+        </button>
+        <button id="showUI"   onclick="showUI()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
+      </div>
+      <input id="addTitle"  placeholder="board file name" onkeyup="nameOfBoard(event)" />
+      <button id="addImage" onclick="addImage()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+    </div>
+    <div id="board">
+    </div>
+    <!------------------------ SYSTEM ------------------------------------>
+    <style>
+      body, html {
+        background-color: #000;
+        margin: 0;
+      }
+      #ui {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        width: 100%;
+        display:block;
+      }
+      button {
+        background-color: rgba(41, 41, 41, 1);
+        border-radius: 100%;
+        border: 1px solid rgba(108, 108, 108, 1);
+        color: #fff;
+      }
+      .delete {
+        position: absolute;
+        top:-10px;
+        right: -10px;
+        width: 40px;
+        height: 40px;
+        transform: rotate(45deg);
+      }
+      #addImage {
+        display:block;
+        margin: 0 auto;
+        width: 50px;
+        height: 50px;
+      }
+      #addTitle {
+        margin: 0 auto 8px;
+        display:block;
+        background: transparent;
+        border: 0;
+        font-size: 42px;
+        text-align: center;
+      }
+      input:focus,
+      input {
+        outline: none;
+        border-radius: 8px;
+        background-color: rgba(41, 41, 41, 1);
+        border: 1px solid rgba(108, 108, 108, 1);
+        color: #fff;
+        min-height: 40px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      #board { /* Masonry container */
+        column-count: 4;
+        column-gap: 1em;
+        padding: 32px;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      @media only screen and (max-width: 480px) {
+        #board { /* Masonry container */
+          column-count: 1;
+          column-gap: 1em;
+          padding: 32px;
+          display: block;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+
+      .pin { /* Masonry bricks or child elements */
+        display: inline-block;
+        position: relative;
+        margin: 0 0 1em;
+        width: 100%;
+        overflow: hidden;
+      }
+      img {
+        border-radius: 4px;
+        width: 100%;
+      }
+      .hide {
+        display: none !important;
+      }
+      #hideUI, #showUI {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        background-color: transparent;
+        border: 0
+      }
+    </style>
+    <script>
+      const board = document.getElementById('board');
+      const addTitle = document.getElementById('addTitle')
+      const addImageButton = document.getElementById('addImage')
+      const hideUIButton = document.getElementById('hideUI')
+      const showUIButton = document.getElementById('showUI')
+      function hideUI(){
+        addTitle.disabled = false
+        addImageButton.classList = ""
+        showUIButton.classList = ""
+        hideUIButton.classList = "hide"
+      }
+      function showUI(){
+        addTitle.disabled = true
+        addImageButton.classList = "hide"
+        showUIButton.classList = "hide"
+        hideUIButton.classList = ""
+      }
+      function nameOfBoard(e) {
+        document.title = '🌄_pin-'+e.target.value.replaceAll(' ', '-')
+      }
+      function addImage() {
+        const board = document.getElementById('board');
+        const imgSrc = prompt("paste image url");
+        toDataURLxhr(imgSrc, function (dataUrl) {
+          const newPin = document.createElement('div');
+          newPin.classList = "pin"
+          newPin.innerHTML = `
+          <button class="delete" onclick="deletePin(event)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+          <img src="${dataUrl}" />
+          `;
+          board.prepend(newPin)
+        });
+      }
+      function deletePin(e){
+        event.target.parentElement.parentElement.remove()
+      }
+      function toDataURLxhr(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+          var reader = new FileReader();
+          reader.onloadend = function() {
+            callback(reader.result);
+          }
+          reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', url);
+        xhr.responseType = 'blob';
+        xhr.send();
+      }
+    </script>
+    <!------------------------ SYSTEM ------------------------------------>
+  </body>
+</html>
