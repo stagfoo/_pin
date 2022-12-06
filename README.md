@@ -40,9 +40,11 @@ currently you need to disable CORS locally, here are some easy extension
 ## Easy to download a pinterst board
 - zoom out to 300% of the page (so all the images download)
 - paste this code into console
-```
+
+```js
 Array.from(document.querySelectorAll('[data-test-id="pinrep-image"] img')).map(i => i.src).join(',') 
 ```
+
 - add new image in _pin.html and paste the list
 
 # Planned features
