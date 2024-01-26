@@ -47,14 +47,6 @@ Array.from(document.querySelectorAll('[data-test-id="pinrep-image"] img')).map(i
 
 - add new image in _pin.html and paste the list
 
-# Planned features
-- ~tags~
-- ~tag searching~
-- grid settings
-- build in pinterest searching?
-- CORS fixes/wrapper application?
-- theming
-
 # Whats inside
 - HTML - no framework
 - JS - no framework
